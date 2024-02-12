@@ -1,0 +1,25 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Container.puml
+
+' LAYOUT_TOP_DOWN()
+' LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+title The Story of CORS
+
+Person(customer, "Customer", "Uses online banking to manage financial transactions and personal accounts")
+
+System_Boundary(system-boundary, "GuardianBank Online Banking System") {
+    Container(onlineBankingFrontEnd, "Online Banking Front-end App", "vue.js 3.3.4 / npm", "Presents user interface, handles user interaction, displays data, validates input")
+    Container(onlineBankingApi, "Online Banking Back-end App", "Spring boot 3.1.4 / gradle", "Processes and stores data, manages security, implements business logic, and provides API interface services")
+    Container(db, "Database", "PostgreSQL 15.4 / docker compose", "Stores/retrieves/updates data, maintains data security and integrity, manages transactions, provides reporting and analysis")
+}
+
+Rel(customer, onlineBankingFrontEnd, "Manages financial transactions and personal accounts", "JSON/HTTP")
+
+Rel(onlineBankingFrontEnd, onlineBankingApi, "Accesses financial transaction and personal account management API interface", "JSON/HTTP")
+Rel(onlineBankingApi, db, "Queries and updates financial transaction and personal account data", "JDBC")
+
+@enduml
